@@ -6,6 +6,12 @@ import ls from '../services/localStorage';
 function App() {
   //useState
   const [data, setData] = useState(ls.get('data', []));
+  const [newData, setNewData] = useState({
+    id: crypto.randomUUID(),
+    name: '',
+    counselor: '',
+    speciality: '',
+  });
 
   //useEffect
   useEffect(() => {
@@ -16,6 +22,30 @@ function App() {
       });
     }
   }, []);
+
+  //Handler Functions
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
+
+  const handleAddChange = (event) => {
+    setNewData({ ...newData, [event.target.id]: event.target.value });
+  };
+
+  const handleAddClick = () => {
+    //set id
+    if (newData.name && newData.counselor && newData.speciality) {
+      ls.set('data', [...data, newData]);
+      setData([...data, newData]);
+      const resetNewData = {
+        id: crypto.randomUUID(),
+        name: '',
+        counselor: '',
+        speciality: '',
+      };
+      setNewData(resetNewData);
+    }
+  };
 
   //Render data
   const htmlData = data.map((item) => {
@@ -46,6 +76,42 @@ function App() {
           {/* <!-- Fin fila de cabecera --> */}
           <tbody className="table__tbody">{htmlData}</tbody>
         </table>
+        <form onSubmit={handleSubmit}>
+          <h2>Añadir una adalaber</h2>
+          <fieldset>
+            <label htmlFor="name">
+              Nombre:
+              <input
+                type="text"
+                name="name"
+                id="name"
+                onChange={handleAddChange}
+                value={newData.name}
+              />
+            </label>
+            <label htmlFor="counselor">
+              Tutora:
+              <input
+                type="text"
+                name="counselor"
+                id="counselor"
+                onChange={handleAddChange}
+                value={newData.counselor}
+              />
+            </label>
+            <label htmlFor="speciality">
+              Especialidad:
+              <input
+                type="text"
+                name="speciality"
+                id="speciality"
+                onChange={handleAddChange}
+                value={newData.speciality}
+              />
+            </label>
+          </fieldset>
+          <button onClick={handleAddClick}>Añadir una nueva adalaber</button>
+        </form>
       </main>
     </div>
   );
