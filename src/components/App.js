@@ -4,6 +4,9 @@ import callToApi from '../services/api';
 import ls from '../services/localStorage';
 
 function App() {
+  //global variables
+  //let newId = 0;
+
   //useState
   const [data, setData] = useState(ls.get('data', []));
   const [newData, setNewData] = useState({
@@ -11,6 +14,10 @@ function App() {
     name: '',
     counselor: '',
     speciality: '',
+  });
+  const [search, setSearch] = useState({
+    name: '',
+    counselor: '',
   });
 
   //useEffect
@@ -29,7 +36,7 @@ function App() {
   };
 
   const handleAddChange = (event) => {
-    setNewData({ ...newData, [event.target.id]: event.target.value });
+    setNewData({ ...newData, [event.target.name]: event.target.value });
   };
 
   const handleAddClick = () => {
@@ -47,21 +54,64 @@ function App() {
     }
   };
 
+  const handleSearch = (event) => {
+    setSearch({ ...search, [event.target.name]: event.target.value });
+  };
+
+  //Other functions
+  const removeAccents = (str) => {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  };
+
   //Render data
-  const htmlData = data.map((item) => {
-    return (
-      <tr key={item.id}>
-        <td>{item.name}</td>
-        <td>{item.counselor}</td>
-        <td>{item.speciality}</td>
-      </tr>
-    );
-  });
+  const htmlData = data
+    .filter((item) => {
+      const itemNoAccents = removeAccents(item.name.toLowerCase());
+      const searchNoAccents = removeAccents(search.name.toLowerCase());
+      return itemNoAccents.includes(searchNoAccents);
+    })
+    .filter((item) => {
+      const itemNoAccents = removeAccents(item.counselor.toLowerCase());
+      const searchNoAccents = removeAccents(search.counselor.toLowerCase());
+      return itemNoAccents.includes(searchNoAccents);
+    })
+    .map((item) => {
+      return (
+        <tr key={item.id}>
+          <td>{item.name}</td>
+          <td>{item.counselor}</td>
+          <td>{item.speciality}</td>
+        </tr>
+      );
+    });
 
   return (
     <div>
       <header>
         <h1 className="title">Adalabers</h1>
+        <form className="form" onSubmit={handleSubmit}>
+          <label htmlFor="nameSearch">
+            Nombre:
+            <input
+              type="text"
+              name="name"
+              id="nameSearch"
+              onChange={handleSearch}
+              value={search.name}
+            />
+          </label>
+          <label htmlFor="counselorSearch">Escoge una tutora:</label>
+          <select
+            name="counselor"
+            id="counselorSearch"
+            onChange={handleSearch}
+            value={search.counselor}>
+            <option value="">Escoge una opción</option>
+            <option value="Yanelis">Yanelis</option>
+            <option value="Dayana">Dayana</option>
+            <option value="Iván">Iván</option>
+          </select>
+        </form>
       </header>
       <main>
         <table className="table">
@@ -76,7 +126,7 @@ function App() {
           {/* <!-- Fin fila de cabecera --> */}
           <tbody className="table__tbody">{htmlData}</tbody>
         </table>
-        <form onSubmit={handleSubmit}>
+        <form className="form" onSubmit={handleSubmit}>
           <h2>Añadir una adalaber</h2>
           <fieldset>
             <label htmlFor="name">
