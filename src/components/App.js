@@ -86,7 +86,7 @@ function App() {
     });
 
   return (
-    <div>
+    <div className="page">
       <header>
         <h1 className="title">Adalabers</h1>
         <form className="form" onSubmit={handleSubmit}>
