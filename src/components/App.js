@@ -78,9 +78,9 @@ function App() {
     .map((item) => {
       return (
         <tr key={item.id}>
-          <td>{item.name}</td>
-          <td>{item.counselor}</td>
-          <td>{item.speciality}</td>
+          <td className="table__tbody__td">{item.name}</td>
+          <td className="table__tbody__td">{item.counselor}</td>
+          <td className="table__tbody__td">{item.speciality}</td>
         </tr>
       );
     });
@@ -100,17 +100,20 @@ function App() {
               value={search.name}
             />
           </label>
-          <label htmlFor="counselorSearch">Escoge una tutora:</label>
-          <select
-            name="counselor"
-            id="counselorSearch"
-            onChange={handleSearch}
-            value={search.counselor}>
-            <option value="">Escoge una opción</option>
-            <option value="Yanelis">Yanelis</option>
-            <option value="Dayana">Dayana</option>
-            <option value="Iván">Iván</option>
-          </select>
+          <label htmlFor="counselorSearch">
+            Escoge una tutora:{' '}
+            <select
+              className="form__special"
+              name="counselor"
+              id="counselorSearch"
+              onChange={handleSearch}
+              value={search.counselor}>
+              <option value="">Escoge una opción</option>
+              <option value="Yanelis">Yanelis</option>
+              <option value="Dayana">Dayana</option>
+              <option value="Iván">Iván</option>
+            </select>
+          </label>
         </form>
       </header>
       <main>
@@ -118,9 +121,9 @@ function App() {
           {/* <!-- Fila de cabecera --> */}
           <thead className="table__thead">
             <tr>
-              <th>Nombre</th>
-              <th>Tutora</th>
-              <th>Especialidad</th>
+              <th className="table__thead__th">Nombre</th>
+              <th className="table__thead__th">Tutora</th>
+              <th className="table__thead__th">Especialidad</th>
             </tr>
           </thead>
           {/* <!-- Fin fila de cabecera --> */}
@@ -128,7 +131,7 @@ function App() {
         </table>
         <form className="form" onSubmit={handleSubmit}>
           <h2>Añadir una adalaber</h2>
-          <fieldset>
+          <fieldset className="form">
             <label htmlFor="name">
               Nombre:
               <input
@@ -160,7 +163,9 @@ function App() {
               />
             </label>
           </fieldset>
-          <button onClick={handleAddClick}>Añadir una nueva adalaber</button>
+          <button className="form__special" onClick={handleAddClick}>
+            Añadir una nueva adalaber
+          </button>
         </form>
       </main>
     </div>

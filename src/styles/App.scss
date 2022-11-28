@@ -3,12 +3,31 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .table {
+    margin: 20px;
 
-    &th,
-    td {
+    &__thead__th {
         border: 1px solid;
+        min-width: 200px;
+    }
+
+    &__tbody__td {
+        border: 1px solid;
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+
+    &__special {
+        font-family: 'Courier New', Courier, monospace;
+        background-color: aquamarine;
     }
 }
