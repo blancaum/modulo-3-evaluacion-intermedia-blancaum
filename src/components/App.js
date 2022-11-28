@@ -17,6 +17,17 @@ function App() {
     }
   }, []);
 
+  //Render data
+  const htmlData = data.map((item) => {
+    return (
+      <tr key={item.id}>
+        <td>{item.name}</td>
+        <td>{item.counselor}</td>
+        <td>{item.speciality}</td>
+      </tr>
+    );
+  });
+
   return (
     <div>
       <header>
@@ -33,26 +44,7 @@ function App() {
             </tr>
           </thead>
           {/* <!-- Fin fila de cabecera --> */}
-          <tbody className="table__tbody">
-            {/* <!-- Primera fila --> */}
-            <tr>
-              <td>MariCarmen</td>
-              <td>Yanelis</td>
-              <td>Python</td>
-            </tr>
-            {/* <!-- Segunda fila --> */}
-            <tr>
-              <td>Amparo</td>
-              <td>Dayana</td>
-              <td>IA</td>
-            </tr>
-            {/* <!-- Tercera fila --> */}
-            <tr>
-              <td>Escandia</td>
-              <td>Iván</td>
-              <td>3D graphics</td>
-            </tr>
-          </tbody>
+          <tbody className="table__tbody">{htmlData}</tbody>
         </table>
       </main>
     </div>
