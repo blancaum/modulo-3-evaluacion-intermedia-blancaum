@@ -1,7 +1,22 @@
 import '../styles/App.scss';
 import { useState, useEffect } from 'react';
+import callToApi from '../services/api';
+import ls from '../services/localStorage';
 
 function App() {
+  //useState
+  const [data, setData] = useState(ls.get('data', []));
+
+  //useEffect
+  useEffect(() => {
+    if (!ls.isKeyInLocal('data')) {
+      callToApi().then((response) => {
+        setData(response);
+        ls.set('data', response);
+      });
+    }
+  }, []);
+
   return (
     <div>
       <h1>Adalabers</h1>
